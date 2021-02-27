@@ -1,0 +1,14 @@
+﻿<enum-method-mappings>
+    <!--
+    <mapping jni-class="com/intercom/twig/Twig" >
+        <constructor jni-name="Twig"
+                     parameter="logLevel"
+                     clr-enum-type="Intercom.Twig.TwigLogLevel" />
+    </mapping>
+    -->
+    <mapping jni-class="com/intercom/twig/Twig" >
+        <method jni-name="setLogLevel"
+                parameter="logLevel"
+                clr-enum-type="Intercom.Twig.TwigLogLevel" />
+    </mapping>
+</enum-method-mappings>

@@ -1,0 +1,6 @@
+﻿<metadata>
+    <attr path="/api/package[@name='com.intercom.twig']"
+          name="managedName" >Intercom.Twig</attr>
+    <attr path="/api/package[@name='com.intercom.twig']/class[@name='Twig']/constructor[@name='Twig' and count(parameter)=3 and parameter[1][@type='int'] and parameter[2][@type='java.lang.String'] and parameter[3][@type='boolean']]/parameter[@name='logLevel']"
+          name="enumType" >Intercom.Twig.TwigLogLevel</attr>
+</metadata>
