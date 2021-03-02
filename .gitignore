@@ -364,3 +364,4 @@ FodyWeavers.xsd
 # Jars & AARs
 /Jars/*.jar
 /Jars/*.aar
+/Jars/**/*.*
