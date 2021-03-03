@@ -95,7 +95,7 @@
     </ItemGroup>
     <ItemGroup>
         <!--
-        <None Include="Jars\gson\proguard.txt"
+        <None Include="Jars\twig\proguard.txt"
               Pack="True"
               PackagePath="proguard\" />
         -->
