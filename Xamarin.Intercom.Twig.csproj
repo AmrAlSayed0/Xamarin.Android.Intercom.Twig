@@ -33,9 +33,13 @@
         <DebugType>portable</DebugType>
         <DefineConstants>$(DefineConstants);TRACE;_BINDING_;</DefineConstants>
         <EnableDefaultItems>false</EnableDefaultItems>
+        <MavenGroupId>com.intercom</MavenGroupId>
+        <MavenArtifactId>twig</MavenArtifactId>
+        <MavenArtifactVersion>1.3.0</MavenArtifactVersion>
+        <NugetPackageId>Xamarin.Android.Intercom.Twig</NugetPackageId>
     </PropertyGroup>
     <PropertyGroup>
-        <PackageId>Xamarin.Android.Intercom.Twig</PackageId>
+        <PackageId>$(NugetPackageId)</PackageId>
         <Title>A Xamarin binding for Intercom's Android library "Twig"</Title>
         <Summary>A Xamarin binding for Intercom's Android library "Twig"</Summary>
         <Description>A Xamarin binding for Intercom's Android library "Twig"</Description>
@@ -47,7 +51,7 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/AmrAlSayed0/Xamarin.Android.Intercom.Twig</PackageProjectUrl>
         <RepositoryUrl>https://github.com/AmrAlSayed0/Xamarin.Android.Intercom.Twig</RepositoryUrl>
-        <PackageVersion>1.3.0.1</PackageVersion>
+        <PackageVersion>$(MavenArtifactVersion).2</PackageVersion>
         <RepositoryType>git</RepositoryType>
         <!-- Include symbol files (*.pdb) in the built .nupkg -->
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -73,32 +77,46 @@
         <Compile Include="Additions\**\*.cs" />
     </ItemGroup>
     <ItemGroup>
+        <!-- Includes the -javadoc jar to generate documentation. This property is now deprecated. -->
         <!--
-        <JavaDocJar Include="Jars\JavaDocJars\com.intercom.twig-1.3.0-javadoc.jar" />
+        <JavaDocJar Include="Jars\JavaDocJars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion)-javadoc.jar"
+                    Condition="Exists('Jars\JavaDocJars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion)-javadoc.jar')" />
         -->
-        <JavaSourceJar Include="Jars\JavaSourcesJars\com.intercom.twig-1.3.0-sources.jar" />
-        <InputJar Include="Jars\com.intercom.twig-1.3.0.jar" />
-        <!-- For those artifacts with lib/ folder -->
-        <InputJar Include="Jars\twig\libs\*.jar"
-                  Condition="Exists('Jars\twig\libs\')" />
-        <None Include="Jars\com.intercom.twig-1.3.0.jar"
+        <!-- Includes the -sources jar to generate documentation. -->
+        <JavaSourceJar Include="Jars\JavaSourcesJars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion)-sources.jar"
+                       Condition="Exists('Jars\JavaSourcesJars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion)-sources.jar')" />
+        <!-- Add the jar as the main source of binding, if it exists. This is mainly for libraries distributed as jar files -->
+        <InputJar Include="Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).jar"
+                  Condition="Exists('Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).jar')" />
+        <!-- Add the extracted jars as the main source of binding, if it exists. This is mainly for libraries distributed as aar files -->
+        <!-- The aar files needs to be extracted to a folder named the same name as the maven artifact ID. -->
+        <InputJar Include="Jars\$(MavenArtifactId)\classes.jar"
+                  Condition="Exists('Jars\$(MavenArtifactId)\classes.jar')" />
+        <InputJar Include="Jars\$(MavenArtifactId)\libs\*.jar"
+                  Condition="Exists('Jars\$(MavenArtifactId)\libs\')" />
+        <!-- Packs the jar or aar file into the nuget package. -->
+        <None Include="Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).jar"
+              Condition="Exists('Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).jar')"
               Pack="True"
-              PackagePath="jar\com.intercom.twig.jar" />
+              PackagePath="jar\$(MavenGroupId).$(MavenArtifactId).jar" />
+        <None Include="Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).aar"
+              Condition="Exists('Jars\$(MavenGroupId).$(MavenArtifactId)-$(MavenArtifactVersion).aar')"
+              Pack="True"
+              PackagePath="aar\$(MavenGroupId).$(MavenArtifactId).aar" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="Xamarin.Android.Intercom.Twig.targets"
+        <None Include="$(NugetPackageId).targets"
               Pack="True"
-              PackagePath="build\$(TargetFramework)" />
-        <None Include="Xamarin.Android.Intercom.Twig.targets"
+              PackagePath="build" />
+        <None Include="$(NugetPackageId).targets"
               Pack="True"
-              PackagePath="buildTransitive\$(TargetFramework)" />
+              PackagePath="buildTransitive" />
     </ItemGroup>
     <ItemGroup>
-        <!--
-        <None Include="Jars\gson\proguard.txt"
+        <None Include="Jars\$(MavenArtifactId)\proguard.txt"
+              Condition="Exists('Jars\$(MavenArtifactId)\proguard.txt')"
               Pack="True"
               PackagePath="proguard\" />
-        -->
     </ItemGroup>
     <ItemGroup>
         <TransformFile Include="Transforms\*.xml" />

@@ -3,14 +3,16 @@
 <Project ToolsVersion="4.0"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
     <ItemGroup>
-        <!--
-        <ProguardConfiguration Include="$(MSBuildThisFileDirectory)..\..\proguard\proguard.txt" />
-        -->
+        <ProguardConfiguration Include="$(MSBuildThisFileDirectory)..\proguard\proguard.txt"
+                               Condition="Exists('$(MSBuildThisFileDirectory)..\proguard\proguard.txt')" />
     </ItemGroup>
     <PropertyGroup>
         <AndroidManifestMerger Condition=" '$(AndroidManifestMerger)' == '' " >manifestmerger.jar</AndroidManifestMerger>
     </PropertyGroup>
     <ItemGroup>
-        <AndroidJavaLibrary Condition=" '$(AndroidApplication)' == 'true' " Include="$(MSBuildThisFileDirectory)..\..\jar\com.intercom.twig.jar" />
+        <AndroidJavaLibrary Include="$(MSBuildThisFileDirectory)..\jar\com.intercom.twig.jar"
+                            Condition="Exists('$(MSBuildThisFileDirectory)..\jar\com.intercom.twig.jar')" />
+        <AndroidAarLibrary Include="$(MSBuildThisFileDirectory)..\aar\com.intercom.twig.aar"
+                           Condition="Exists('$(MSBuildThisFileDirectory)..\aar\com.intercom.twig.aar')" />
     </ItemGroup>
 </Project>
